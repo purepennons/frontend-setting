@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const basePath = path.resolve(__dirname)
 const appPath = path.join(basePath, 'src')
@@ -19,7 +20,7 @@ module.exports = {
     output: {
         path: bundlePath,
         pathinfo: true,
-        filename: '[name].[hash:8].bundle.js',
+        filename: 'static/js/[name].[hash:8].bundle.js',
         chunkFilename: 'static/js/[name].chunk.js',
         // publicPath:
     },
@@ -28,7 +29,7 @@ module.exports = {
 
     devServer: {
         contentBase: staticPath,
-        publicPath: '/dist/',
+        publicPath: '/',    // I don't know why need to set '/', not '/dist/' =_=
         compress: true,
         clientLogLevel: 'none',
         watchContentBase: true,
@@ -136,15 +137,21 @@ module.exports = {
             root: basePath,
             verbose: true,
             dry: false,
-            watch: true,
+            watch: false,
             exclude: [],
         }),
-        new webpack.optimize.CommonsChunkPlugin({ name: 'commons', filename: 'commons.[hash:8].js' }),
-        new ExtractTextPlugin('[name].[hash:8].bundle.css'),
         new HtmlWebpackPlugin({
             inject: true,
             template: path.join(staticPath, 'index.html'),
         }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'commons',
+            filename: 'static/js/commons.[hash:8].js'
+        }),
+        new ExtractTextPlugin('static/css/[name].[hash:8].bundle.css'),
+        new CopyWebpackPlugin([
+            { from: staticPath, to: bundlePath },
+        ], {ignore: ['index.html']}),
         new webpack.HotModuleReplacementPlugin(),
     ]
 }
