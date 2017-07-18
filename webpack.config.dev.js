@@ -1,5 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
+const poststylus = require('poststylus')
+const autoprefixer = require('autoprefixer')
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -30,13 +33,15 @@ module.exports = {
     devServer: {
         contentBase: staticPath,
         publicPath: '/',    // I don't know why need to set '/', not '/dist/' =_=
+        port: 8080,
         compress: true,
         clientLogLevel: 'none',
         watchContentBase: true,
         hot: true,
-        quiet: true,
+        quiet: false,
         watchOptions: {
             ignored: /node_modules/,
+            poll: true,
         },
     },
     module: {
@@ -58,7 +63,7 @@ module.exports = {
                 exclude: [
                     /\.html$/,
                     /\.(js|jsx)$/,
-                    /\.(css|scss)$/,
+                    /\.(css|scss|styl)$/,
                     /\.json$/,
                     /\.bmp$/,
                     /\.gif$/,
@@ -90,7 +95,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.scss$/,
+                test: /\.styl$/,
                 use: ExtractTextPlugin.extract({
                     fallback: {
                         loader: require.resolve('style-loader'),
@@ -102,29 +107,53 @@ module.exports = {
                             options: { importLoaders: 1, sourceMap: true }
                         },
                         {
-                            loader: require.resolve('postcss-loader'),
+                            loader: require.resolve('stylus-loader'),
                             options: {
-                                ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                                sourceMap: 'inline',
-                                plugins: () => [
-                                    require('precss'),
-                                    require('postcss-flexbugs-fixes'),
-                                    require('autoprefixer')({
-                                    // browsers: [
-                                    //     '>1%',
-                                    //     'last 4 versions',
-                                    //     'Firefox ESR',
-                                    //     'not ie < 9', // React doesn't support IE8 anyway
-                                    // ],
-                                    // flexbox: 'no-2009',
-                                    }),
-                                ],
+                                sourceMap: 'true',
+                                use: [
+                                    poststylus([
+                                        require('rucksack-css'),
+                                        require('postcss-flexbugs-fixes'),
+                                        autoprefixer({
+                                            browsers: [
+                                                '>1%',
+                                                'last 4 versions',
+                                                'Firefox ESR',
+                                                'not ie < 9', // React doesn't support IE8 anyway
+                                            ],
+                                            flexbox: 'no-2009',
+                                        }),
+                                    ])
+                                ]
                             }
-                        },
-                        {
-                            loader: require.resolve('sass-loader'),
-                            options: { sourceMap: true }
                         }
+
+                        // for sass: sass-loader -> postcss 
+                        // don't forget to change the extension to /\.(sass|scss)$/
+                        // {
+                        //     loader: require.resolve('postcss-loader'),
+                        //     options: {
+                        //         ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+                        //         sourceMap: 'inline',
+                        //         plugins: () => [
+                        //             require('precss'),
+                        //             require('postcss-flexbugs-fixes'),
+                        //             require('autoprefixer')({
+                        //             // browsers: [
+                        //             //     '>1%',
+                        //             //     'last 4 versions',
+                        //             //     'Firefox ESR',
+                        //             //     'not ie < 9', // React doesn't support IE8 anyway
+                        //             // ],
+                        //             // flexbox: 'no-2009',
+                        //             }),
+                        //         ],
+                        //     }
+                        // },
+                        // {
+                        //     loader: require.resolve('sass-loader'),
+                        //     options: { sourceMap: true }
+                        // }
                     ]
                 })
                 
@@ -140,18 +169,23 @@ module.exports = {
             watch: false,
             exclude: [],
         }),
-        new HtmlWebpackPlugin({
-            inject: true,
-            template: path.join(staticPath, 'index.html'),
-        }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'commons',
             filename: 'static/js/commons.[hash:8].js'
         }),
-        new ExtractTextPlugin('static/css/[name].[hash:8].bundle.css'),
+        // when enable this module, any change of stylesheet wiil not tigger the HMR
+        new ExtractTextPlugin({
+            disable: true,
+            filename: 'static/css/[name].[hash:8].bundle.css',
+            allChunks: true
+        }),
         new CopyWebpackPlugin([
             { from: staticPath, to: bundlePath },
         ], {ignore: ['index.html']}),
+        new HtmlWebpackPlugin({
+            inject: true,
+            template: path.join(staticPath, 'index.html'),
+        }),
         new webpack.HotModuleReplacementPlugin(),
     ]
 }

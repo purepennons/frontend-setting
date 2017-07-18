@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.config.dev.js",
+    "start": "webpack-dev-server --config webpack.config.dev.js",
     "watch": "webpack --progress --watch --config webpack.config.dev.js",
     "build": "webpack -p --config webpack.config.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,9 +28,13 @@
     "postcss": "^6.0.6",
     "postcss-flexbugs-fixes": "^3.0.0",
     "postcss-loader": "^2.0.6",
+    "poststylus": "^0.2.3",
     "precss": "^2.0.0",
+    "rucksack-css": "^0.9.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.9",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1"
