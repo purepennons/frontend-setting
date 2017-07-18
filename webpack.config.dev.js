@@ -95,7 +95,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.styl$/,
+                test: /\.(styl|css)$/,
                 use: ExtractTextPlugin.extract({
                     fallback: {
                         loader: require.resolve('style-loader'),
