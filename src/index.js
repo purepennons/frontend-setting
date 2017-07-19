@@ -1,6 +1,6 @@
 import {groupBy} from 'lodash/collection'
 import people from './people'
-import './style.styl'
+import './styles/style.scss'
 import img from './assets/x-30465_640.png'
 
 const managerGroups = groupBy(people, 'manager')

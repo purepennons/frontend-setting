@@ -1,9 +1,7 @@
-$bg-color: #2B3A43;
 pre {
     display: flex;
     flex-flow: row nowrap;
     padding: 15px;
-    background: $bg-color;
-    color: yellow;
-
+    background: #2B3A43;
+    color: #ffffff;
 }
