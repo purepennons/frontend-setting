@@ -86,7 +86,7 @@ module.exports = {
                 exclude: [
                     /\.html$/,
                     /\.(js|jsx)$/,
-                    /\.(css|scss|styl)$/,
+                    /\.(css|sass|scss|styl)$/,
                     /\.json$/,
                     /\.bmp$/,
                     /\.gif$/,
