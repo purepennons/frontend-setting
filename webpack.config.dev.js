@@ -16,11 +16,6 @@ const postCSSOption = {
     ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
     sourceMap: 'inline',
     plugins: () => [
-        require('cssnano')({
-            preset: [
-                'default',
-            ]
-        }),
         require('precss'),
         require('postcss-flexbugs-fixes'),
         require('autoprefixer')({

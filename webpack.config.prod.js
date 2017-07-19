@@ -16,21 +16,16 @@ const postCSSOption = {
     ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
     sourceMap: 'inline',
     plugins: () => [
-        require('cssnano')({
-            preset: [
-                'default',
-            ]
-        }),
         require('precss'),
         require('postcss-flexbugs-fixes'),
         require('autoprefixer')({
-        // browsers: [
-        //     '>1%',
-        //     'last 4 versions',
-        //     'Firefox ESR',
-        //     'not ie < 9', // React doesn't support IE8 anyway
-        // ],
-        // flexbox: 'no-2009',
+            browsers: [
+                '>1%',
+                'last 4 versions',
+                'Firefox ESR',
+                'not ie < 9', // React doesn't support IE8 anyway
+            ],
+            flexbox: 'no-2009',
         }),
         require('rucksack-css'),
     ],
