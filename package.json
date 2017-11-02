@@ -11,7 +11,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "extract-text-webpack-plugin": "^3.0.2"
+  },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.25.0",
@@ -20,10 +22,14 @@
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
-    "extract-text-webpack-plugin": "^3.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
-    "lodash": "^4.17.4",
+    "interpolate-html-plugin": "^2.0.0",
     "node-sass": "^4.5.3",
     "postcss": "^6.0.6",
     "postcss-flexbugs-fixes": "^3.0.0",
