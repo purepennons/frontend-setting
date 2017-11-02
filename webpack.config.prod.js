@@ -117,7 +117,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: {
                         loader: require.resolve('style-loader'),
-                        options: { modules: true, sourceMap: true }
+                        options: { modules: false, sourceMap: true }
                     },
                     use: [
                         // for sass: sass-loader -> postcss 
@@ -139,7 +139,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: {
                         loader: require.resolve('style-loader'),
-                        options: { modules: true, sourceMap: true }
+                        options: { modules: false, sourceMap: true }
                     },
                     use: [
                         {
