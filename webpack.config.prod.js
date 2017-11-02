@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 
 const basePath = path.resolve(__dirname);
 const appPath = path.join(basePath, 'src');
@@ -48,7 +49,7 @@ module.exports = {
     // publicPath:
   },
 
-  devtool: 'cheap-module-source-map',
+  // devtool: 'cheap-module-source-map',
 
   devServer: {
     contentBase: staticPath,
@@ -195,6 +196,7 @@ module.exports = {
       inject: true,
       template: path.join(staticPath, 'index.html'),
     }),
+    new StyleExtHtmlWebpackPlugin({ enable: true, minify: true }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
